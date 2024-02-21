@@ -13,6 +13,7 @@
     </a>
     <a href="https://coverage-badge.samuelcolvin.workers.dev/redirect/lpthong90/py-simple-trees" target="_blank">
         <img src="https://coverage-badge.samuelcolvin.workers.dev/lpthong90/py-simple-trees.svg" alt="Coverage">
+    </a>
     <a href="https://pypi.org/project/py-simple-trees" target="_blank">
         <img src="https://img.shields.io/pypi/v/py-simple-trees?color=%2334D058&label=pypi%20package" alt="Package version">
     </a>

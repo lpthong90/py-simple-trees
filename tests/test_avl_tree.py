@@ -1,15 +1,15 @@
-from simple_trees import AVLTree, TraversalType
+from simple_trees import AVLTree, AVLNode, TraversalType
 
 
 def build_avl_tree():
     tree = AVLTree()
-    tree.insert(1, 1)
-    tree.insert(2, 2)
-    tree.insert(3, 3)
-    tree.insert(4, 4)
-    tree.insert(5, 5)
-    tree.insert(6, 6)
-    tree.insert(7, 7)
+    tree.insert(AVLNode(1, 1))
+    tree.insert(AVLNode(2, 2))
+    tree.insert(AVLNode(3, 3))
+    tree.insert(AVLNode(4, 4))
+    tree.insert(AVLNode(5, 5))
+    tree.insert(AVLNode(6, 6))
+    tree.insert(AVLNode(7, 7))
     return tree
 
 

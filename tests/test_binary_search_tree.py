@@ -1,16 +1,16 @@
-from simple_trees import BSTree, TraversalType
+from simple_trees import BSTree, BinaryNode, TraversalType
 
 
 def build_bstree():
     tree = BSTree()
 
-    tree.insert(4, 4)
-    tree.insert(2, 2)
-    tree.insert(6, 6)
-    tree.insert(1, 1)
-    tree.insert(7, 7)
-    tree.insert(5, 5)
-    tree.insert(3, 3)
+    tree.insert(BinaryNode(4, 4))
+    tree.insert(BinaryNode(2, 2))
+    tree.insert(BinaryNode(6, 6))
+    tree.insert(BinaryNode(1, 1))
+    tree.insert(BinaryNode(7, 7))
+    tree.insert(BinaryNode(5, 5))
+    tree.insert(BinaryNode(3, 3))
 
     return tree
 
