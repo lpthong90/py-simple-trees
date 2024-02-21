@@ -37,11 +37,15 @@
 This package is a implementation collection of tree data structures.
 
 ## Installation
+
 <div class="termy">
 
 ```console
+
 $ pip install py-simple-trees
+
 ---> 100%
+
 Successfully installed py-simple-trees
 ```
 
