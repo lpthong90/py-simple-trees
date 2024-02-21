@@ -1,10 +1,16 @@
 from __future__ import annotations
 
-from typing import TypeVar, Generic, Optional, List, Any
+from typing import TypeVar, Generic, Optional
 from enum import Enum
+
+from py_simple_trees.node import Node, BinaryNode, AVLNode
 
 K = TypeVar("K")
 V = TypeVar("V")
+
+N = TypeVar("N", bound=Node)
+BN = TypeVar("BN", bound=BinaryNode)
+AVLBN = TypeVar("AVLBN", bound=AVLNode)
 
 
 class NodeExistedError(RuntimeError):
@@ -25,39 +31,6 @@ class TraversalType(Enum):
     POST_ORDER = "post_order"
 
 
-class Node(Generic[K, V]):
-    def __init__(self, key: K, value: V):
-        self.key: K = key
-        self.value: V = value
-        self.children: List[Any] = []
-
-
-class BinaryNode(Node[K, V]):
-    def __init__(self, key: K, value: V):
-        super().__init__(key, value)
-        self.children: List[BinaryNode | None] = [None, None]
-
-    @property
-    def left(self):
-        return self.children[0]
-
-    @left.setter
-    def left(self, node: Optional[BinaryNode]):
-        self.children[0] = node
-
-    @property
-    def right(self):
-        return self.children[1]
-
-    @right.setter
-    def right(self, node: Optional[BinaryNode]):
-        self.children[1] = node
-
-
-N = TypeVar("N", bound=Node)
-BN = TypeVar("BN", bound=BinaryNode)
-
-
 class GenericTree(Generic[K, V, N]):
     def __init__(self, root: Optional[N] = None):
         self.root: Optional[N] = root
@@ -69,6 +42,9 @@ class GenericTree(Generic[K, V, N]):
         raise NotImplementedError
 
     def search(self, node: N) -> Optional[N]:
+        raise NotImplementedError
+
+    def remove(self, node: N):
         raise NotImplementedError
 
     def traversal(
@@ -154,6 +130,9 @@ class BinaryTree(GenericTree[K, V, BN]):
                     yield node
         yield root
 
+    def remove(self, node: BN):
+        return None
+
     def print(self):
         for node in self.traversal(traversal_type=TraversalType.PRE_ORDER):
             if node.left is not None:
@@ -205,43 +184,29 @@ class BinarySearchTree(BinaryTree[K, V, BN]):
             return None
         if root.key == node.key:
             return root
-        return self._search(root.left, node.key) or self._search(root.right, node.key)
+        return self._search(root.left, node) or self._search(root.right, node)
 
-    def remove(self, node: BN) -> bool:
-        return self._remove(self.root, node)
+    def remove(self, node: BN):
+        self.root = self._remove(self.root, node)
 
-    def _remove(self, root: Optional[BN], node: BN) -> bool:
-        return False
-
-
-BSTree = BinarySearchTree
-
-
-class AVLNode(BinaryNode[K, V]):
-    def __init__(self, key: K, value: V):
-        super().__init__(key, value)
-        self.height = 1
-        self.left_height = 0
-        self.right_height = 0
-
-    @property
-    def balance(self):
-        return self.left_height - self.right_height
-
-    @property
-    def min_node(self):
-        if self.left is None:
-            return self
-        return self.left.min_node
-
-    @property
-    def max_node(self):
-        if self.right is None:
-            return self
-        return self.right.max_node
-
-
-AVLBN = TypeVar("AVLBN", bound=AVLNode)
+    def _remove(self, root: Optional[BN], node: BN) -> Optional[BN]:
+        if root is None:
+            return None
+        if node.key < root.key:
+            root.left = self._remove(root.left, node)
+            return root
+        if node.key > root.key:
+            root.right = self._remove(root.right, node)
+            return root
+        if root.left is None:
+            return root.right
+        elif root.right is None:
+            return root.left
+        temp = root.right.min_node
+        root.key = temp.key
+        root.value = temp.value
+        root.right = self._remove(root.right, temp)
+        return root
 
 
 class AVLTree(BinarySearchTree[K, V, AVLBN]):
@@ -252,9 +217,6 @@ class AVLTree(BinarySearchTree[K, V, AVLBN]):
         if not issubclass(node.__class__, AVLNode):
             raise NodeTypeNotValidError
         self.root = self._insert(self.root, node)
-
-    def delete(self, node: AVLBN):
-        self.root = self._delete_node(self.root, node)
 
     def _insert(self, root: Optional[AVLBN], node: AVLBN) -> AVLBN:
         if root is None:
@@ -269,16 +231,19 @@ class AVLTree(BinarySearchTree[K, V, AVLBN]):
             root.right_height = 0 if root.right is None else root.right.height
 
         root.height = 1 + max(root.left_height, root.right_height)
-        return self._balance(root, node)
+        return self._balance(root)
 
-    def _delete_node(self, root: Optional[AVLBN], node: AVLBN) -> Optional[AVLBN]:
+    def remove(self, node: AVLBN):
+        self.root = self._remove(self.root, node)
+
+    def _remove(self, root: Optional[AVLBN], node: AVLBN) -> Optional[AVLBN]:
         if root is None:
             return None
         elif node.key < root.key:
-            root.left = self._delete_node(root.left, node)
+            root.left = self._remove(root.left, node)
             root.left_height = 0 if root.left is None else root.left.height
         elif node.key > root.key:
-            root.right = self._delete_node(root.right, node)
+            root.right = self._remove(root.right, node)
             root.right_height = 0 if root.right is None else root.right.height
         else:
             if root.left is None:
@@ -288,26 +253,23 @@ class AVLTree(BinarySearchTree[K, V, AVLBN]):
             temp = root.right.min_node
             root.key = temp.key
             root.value = temp.value
-            root.right = self._delete_node(root.right, temp)
+            root.right = self._remove(root.right, temp)
             root.right_height = 0 if root.right is None else root.right.height
 
-        return self._balance(root, node)
+        return self._balance(root)
 
-    def _balance(self, root: AVLBN, node: AVLBN):
-        if root is None:
-            return
-
+    def _balance(self, root: AVLBN) -> AVLBN:
         balance_factor = root.balance
 
         if balance_factor > 1:
-            if node.key < root.left.key:
+            if root.left.balance >= 0:
                 return self._right_rotate(root)
             else:
                 root.left = self._left_rotate(root.left)
                 return self._right_rotate(root)
 
         if balance_factor < -1:
-            if node.key > root.right.key:
+            if root.right.balance <= 0:
                 return self._left_rotate(root)
             else:
                 root.right = self._right_rotate(root.right)
@@ -351,3 +313,6 @@ class AVLTree(BinarySearchTree[K, V, AVLBN]):
                 print(node.key, "--L-->", node.left.key)
             if node.right is not None:
                 print(node.key, "--R-->", node.right.key)
+
+
+BSTree = BinarySearchTree

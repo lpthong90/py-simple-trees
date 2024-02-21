@@ -92,3 +92,31 @@ def test_post_order_traversal_and_reverse():
             tree.traversal(traversal_type=TraversalType.POST_ORDER, reverse=True),
         )
     )
+
+
+def test_update():
+    tree = build_bstree()
+
+    tree.update(BinaryNode(key=4, value=-4))
+    assert tree.root.key == 4
+    assert tree.root.value == -4
+
+
+def test_search():
+    tree = build_bstree()
+
+    node = tree.search(BinaryNode(key=4))
+
+    assert node is not None
+    assert node.key == 4
+    assert node.value == 4
+
+
+def test_remove():
+    tree = build_bstree()
+
+    tmp_node = BinaryNode(key=4)
+    tree.remove(tmp_node)
+    node = tree.search(tmp_node)
+
+    assert node is None

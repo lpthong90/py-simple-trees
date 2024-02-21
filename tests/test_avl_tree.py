@@ -85,3 +85,27 @@ def test_post_order_traversal_and_reverse():
             tree.traversal(traversal_type=TraversalType.POST_ORDER, reverse=True),
         )
     )
+
+
+def test_remove():
+    tree = build_avl_tree()
+
+    tmp_node = AVLNode(key=4)
+    tree.remove(tmp_node)
+    node = tree.search(tmp_node)
+    assert node is None
+
+    tmp_node = AVLNode(key=6)
+    tree.remove(tmp_node)
+    node = tree.search(tmp_node)
+    assert node is None
+
+    tmp_node = AVLNode(key=7)
+    tree.remove(tmp_node)
+    node = tree.search(tmp_node)
+    assert node is None
+
+    assert tree.root.key == 2
+    assert tree.root.left.key == 1
+    assert tree.root.right.key == 5
+    assert tree.root.right.left.key == 3
