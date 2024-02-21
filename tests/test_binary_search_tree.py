@@ -1,4 +1,4 @@
-from simple_trees import BSTree, BinaryNode, TraversalType
+from py_simple_trees import BSTree, BinaryNode, TraversalType
 
 
 def build_bstree():

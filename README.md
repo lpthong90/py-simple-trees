@@ -59,8 +59,7 @@ Successfully installed py-simple-trees
 ## Basic Usage
 
 ```Python
-import simple_trees import AVLTree
-
+from py_simple_trees import AVLTree
 
 if __name__ == "__main__":
     tree = AVLTree()
@@ -72,7 +71,7 @@ if __name__ == "__main__":
     tree.insert(5, 5)
     tree.insert(6, 6)
     tree.insert(7, 7)
-    
+
     tree.print()
 ```
 

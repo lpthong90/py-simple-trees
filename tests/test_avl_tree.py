@@ -1,4 +1,4 @@
-from simple_trees import AVLTree, AVLNode, TraversalType
+from py_simple_trees import AVLTree, AVLNode, TraversalType
 
 
 def build_avl_tree():
