@@ -7,19 +7,22 @@ K = TypeVar("K")
 V = TypeVar("V")
 
 
-class NodeExistedError(RuntimeError): ...
+class NodeExistedError(RuntimeError):
+    ...
 
 
-class NodeNotExistedError(RuntimeError): ...
+class NodeNotExistedError(RuntimeError):
+    ...
 
 
-class NodeTypeNotValidError(RuntimeError): ...
+class NodeTypeNotValidError(RuntimeError):
+    ...
 
 
 class TraversalType(Enum):
-    PRE_ORDER = 'pre_order'
-    IN_ORDER = 'in_order'
-    POST_ORDER = 'post_order'
+    PRE_ORDER = "pre_order"
+    IN_ORDER = "in_order"
+    POST_ORDER = "post_order"
 
 
 class Node(Generic[K, V]):
@@ -68,7 +71,11 @@ class GenericTree(Generic[K, V, N]):
     def search(self, node: N) -> Optional[N]:
         raise NotImplementedError
 
-    def traversal(self, traversal_type: TraversalType = TraversalType.PRE_ORDER, reverse: bool = False):
+    def traversal(
+        self,
+        traversal_type: TraversalType = TraversalType.PRE_ORDER,
+        reverse: bool = False,
+    ):
         if self.root is not None:
             if traversal_type == TraversalType.PRE_ORDER:
                 for node in self._pre_order_traversal(self.root, reverse):
