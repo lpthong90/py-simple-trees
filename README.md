@@ -37,6 +37,7 @@
 This package is a implementation collection of tree data structures.
 
 ## Installation
+
 <div class="termy">
 
 ```console
