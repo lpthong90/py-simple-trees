@@ -3,6 +3,6 @@
 set -e
 set -x
 
-mypy simple_trees
-ruff simple_trees tests scripts
-ruff format simple_trees tests scripts --check
+mypy py_simple_trees
+ruff py_simple_trees tests scripts
+ruff format py_simple_trees tests scripts --check
