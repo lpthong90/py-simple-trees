@@ -1,6 +1,11 @@
 # py-simple-trees
 
 <p align="center">
+    <a href="https://lpthong90.dev/projects/099989-py-simple-trees.html">
+        <img class="project-thumnail" src="https://lpthong90.dev/py-simple-trees/assets/images/thumbnail.png" alt="Python Simple Trees">
+    </a> 
+</p>
+<p align="center">
     <em>This package is a implementation collection of tree data structures.</em>
 </p>
 
