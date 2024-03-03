@@ -1,6 +1,11 @@
 # py-simple-trees
 
 <p align="center">
+    <a href="https://lpthong90.dev/projects/099989-py-simple-trees.html">
+        <img class="project-thumnail" src="https://lpthong90.dev/py-simple-trees/assets/images/thumbnail.png" alt="Python Simple Trees">
+    </a> 
+</p>
+<p align="center">
     <em>This package is a implementation collection of tree data structures.</em>
 </p>
 
@@ -41,15 +46,11 @@ This package is a implementation collection of tree data structures.
 <div class="termy">
 
 ```console
-
 $ pip install py-simple-trees
-
 ---> 100%
-
 Successfully installed py-simple-trees
 ```
 
-</div>
 
 ## Tree Types
 - Binary Tree
@@ -59,18 +60,18 @@ Successfully installed py-simple-trees
 ## Basic Usage
 
 ```Python
-from py_simple_trees import AVLTree
+from py_simple_trees import AVLTree, AVLNode
 
 if __name__ == "__main__":
     tree = AVLTree()
 
-    tree.insert(1, 1)
-    tree.insert(2, 2)
-    tree.insert(3, 3)
-    tree.insert(4, 4)
-    tree.insert(5, 5)
-    tree.insert(6, 6)
-    tree.insert(7, 7)
+    tree.insert(AVLNode(1, 1))
+    tree.insert(AVLNode(2, 2))
+    tree.insert(AVLNode(3, 3))
+    tree.insert(AVLNode(4, 4))
+    tree.insert(AVLNode(5, 5))
+    tree.insert(AVLNode(6, 6))
+    tree.insert(AVLNode(7, 7))
 
     tree.print()
 ```
